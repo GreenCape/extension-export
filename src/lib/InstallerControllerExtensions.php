@@ -37,7 +37,7 @@ class InstallerControllerExtensions extends BaseController
 		$dataMapper   = new DataMapper();
 		$params       = new Registry(JPluginHelper::getPlugin('system', 'extensionexport')->params);
 		$exportPath   = JPATH_ROOT . '/' . $params->get('directory', 'images/dist');
-		$fileMode     = (int) octdec('0' . $params->get('filemode', '664'));
+		$fileMode     = (int) octdec('0' . $params->get('filemode', '644'));
 
 		foreach ($extensionIds as $extensionId)
 		{

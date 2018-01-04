@@ -113,7 +113,7 @@ class Exporter
 	 * @var int
 	 * @since 1.0.0
 	 */
-	private $dirMode = 0775;
+	private $dirMode = 0755;
 
 	/**
 	 * Exporter constructor.

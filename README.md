@@ -19,7 +19,7 @@ It defaults to `images/dist`, so the packages can easily be managed (renamed, de
 
 ### File Mode
 
-The File Mode is the UNIX permissions, defaulting to `0664`.
+The File Mode is the UNIX permissions, defaulting to `0644`.
 
 ## Usage
 
