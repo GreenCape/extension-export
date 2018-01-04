@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="system" method="upgrade">
+    <name>PLG_SYSTEM_EXTENSIONEXPORT</name>
+    <creationDate>Jan 2018</creationDate>
+    <author>Niels Braczek</author>
+    <authorEmail>nbraczek@bsds.de</authorEmail>
+    <authorUrl>http://bsds.de</authorUrl>
+    <copyright>BSDS Braczek Software- und DatenSysteme. All rights reserved.</copyright>
+    <license>GNU/GPL3</license>
+    <version>1.0.0</version>
+    <description>PLG_SYSTEM_EXTENSIONEXPORT_DESCRIPTION</description>
+    <files>
+        <filename plugin="extensionexport">extensionexport.php</filename>
+        <folder>lib</folder>
+    </files>
+    <languages folder="language">
+        <language tag="en-GB">en-GB.plg_system_extensionexport.ini</language>
+        <language tag="en-GB">en-GB.plg_system_extensionexport.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                    name="directory"
+                    type="text"
+                    label="PLG_SYSTEM_EXTENSIONEXPORT_FIELD_DIRECTORY"
+                    description="PLG_SYSTEM_EXTENSIONEXPORT_FIELD_DIRECTORY_DESC"
+                    size="60"
+                    default="images/dist"
+                />
+                <field
+                    name="filemode"
+                    type="text"
+                    label="PLG_SYSTEM_EXTENSIONEXPORT_FIELD_FILEMODE"
+                    description="PLG_SYSTEM_EXTENSIONEXPORT_FIELD_FILEMODE_DESC"
+                    size="6"
+                    default="0664"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>
