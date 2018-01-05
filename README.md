@@ -4,7 +4,7 @@ This is a **system plugin** for Joomla that extends Joomla's Extension Manager w
 
 ## Installation
 
-Download the latest release (see [Release tab]()) and install it like any other plugin.
+Download the latest release (see [Release tab](https://github.com/GreenCape/extension-export/releases)) and install it like any other plugin.
 Navigate to *Extensions/Plugins*, and search for `extension export`.
 Enable the plugin.
 
