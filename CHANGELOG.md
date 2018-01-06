@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+- Added ability to download all selected extensions as a single package.
+
 ### Changed
 
 - Changed default permissions to `0644` (files) / `0755` (directories). Thanks @brianteeman
