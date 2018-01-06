@@ -111,7 +111,7 @@ class Exporter
 
 	/**
 	 * @var int
-	 * @since 1.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $dirMode;
 
@@ -501,6 +501,8 @@ class Exporter
 	}
 
 	/**
+	 * Copy a directory
+	 *
 	 * @param $sourcePath
 	 * @param $targetPath
 	 *
@@ -520,6 +522,8 @@ class Exporter
 	}
 
 	/**
+	 * Get the manifest
+	 *
 	 * @return \SimpleXMLElement
 	 *
 	 * @since 1.0.0
@@ -533,6 +537,8 @@ class Exporter
 	}
 
 	/**
+	 * Get the manifest path
+	 *
 	 * @return string
 	 *
 	 * @since 1.0.0
@@ -563,6 +569,8 @@ class Exporter
 	}
 
 	/**
+	 * Safely get an attribute (or its default) from a SimpleXMLElement
+	 *
 	 * @param \SimpleXMLElement $element
 	 * @param string            $tag
 	 * @param string            $attribute
@@ -582,6 +590,11 @@ class Exporter
 		return (string) $element->{$tag}->attributes()->{$attribute} ?: $default;
 	}
 
+	/**
+	 * Fix permissions
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
 	private function fixPermissions()
 	{
 		foreach (JFolder::files($this->exportDirectory . '/' . $this->fileBucket, '.', 10, true) as $file)

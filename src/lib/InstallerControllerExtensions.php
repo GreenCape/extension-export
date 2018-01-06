@@ -13,7 +13,6 @@ use GreenCape\Extension\Packager;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 /**
@@ -52,7 +51,6 @@ class InstallerControllerExtensions extends BaseController
 			$type                      = $attributes->type;
 			$clientId                  = (int) $attributes->client_id;
 			$pluginGroup               = $attributes->folder;
-			$package                   = '';
 			$packageData[$extensionId] = $attributes;
 
 			try
@@ -74,11 +72,6 @@ class InstallerControllerExtensions extends BaseController
 				$doCreatePackage = false;
 
 				$this->issueFailureMessage($element, $type, $exception);
-			}
-
-			if ($delDirs && !empty($package))
-			{
-				Folder::delete($exportPath . '/' . preg_replace('~-[\d\.]*$~', '', $package));
 			}
 		}
 
