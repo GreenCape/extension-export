@@ -17,9 +17,20 @@ When you click on the plugin's name in the view mentioned before, you can edit t
 Specify the directory, where the exported packages will be stored for later use.
 It defaults to `images/dist`, so the packages can easily be managed (renamed, deleted) using the Media Manager.
 
+### Delete Directories
+
+This switch controls the deletion of the temporary directories after bundling the extension files.
+* `Yes` - delete the directories (default). Use this setting if you do not need the uncompressed packages. They can only be deleted if you have file system access (FTP or SSH).
+* `No` - keep the directories. Use this setting (in your development environment) to simply copy the packages into your development area without unpacking them first.
+
 ### File Mode
 
-The File Mode is the UNIX permissions, defaulting to `0644`.
+The File Mode is the UNIX permissions for files, defaulting to `0644`.
+
+### Dir Mode
+
+The Dir Mode is the UNIX permissions for directories, defaulting to `0755`.
+This field is only available, if `Delete Directories` is set to `yes`.
 
 ## Usage
 

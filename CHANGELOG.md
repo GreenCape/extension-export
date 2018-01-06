@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Added ability to download all selected extensions as a single package.
+- Added ability to keep unzipped directories.
 
 ### Changed
 
