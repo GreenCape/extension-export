@@ -41,6 +41,9 @@ class DataMapper
 		;
 		$db->setQuery($query);
 
-		return $db->loadObject();
+		$attributes = $db->loadAssoc();
+		$manifestCache = json_decode($attributes['manifest_cache'], true);
+
+		return (object) array_merge($attributes, $manifestCache);
 	}
 }
