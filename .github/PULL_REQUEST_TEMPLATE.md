@@ -12,9 +12,5 @@ Pull Request for Issue # .
 
 
 
-### Actual result
-
-
-
 ### Documentation Changes Required
 
