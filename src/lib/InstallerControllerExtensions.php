@@ -13,7 +13,6 @@ use GreenCape\Extension\Packager;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 /**
@@ -39,6 +38,8 @@ class InstallerControllerExtensions extends BaseController
 		$params       = new Registry(JPluginHelper::getPlugin('system', 'extensionexport')->params);
 		$exportPath   = JPATH_ROOT . '/' . $params->get('directory', 'images/dist');
 		$fileMode     = (int) octdec('0' . $params->get('filemode', '644'));
+		$dirMode      = (int) octdec('0' . $params->get('dirmode', '755'));
+		$delDirs      = (bool) (int) $params->get('del_dirs', '1');
 
 		$doCreatePackage = count($extensionIds) > 1;
 		$packageData     = [];
@@ -50,15 +51,19 @@ class InstallerControllerExtensions extends BaseController
 			$type                      = $attributes->type;
 			$clientId                  = (int) $attributes->client_id;
 			$pluginGroup               = $attributes->folder;
-			$package                   = '';
 			$packageData[$extensionId] = $attributes;
 
 			try
 			{
-				$exporter = new Exporter($exportPath);
+				$exporter = new Exporter($exportPath, $dirMode, $fileMode);
 				$package  = $exporter->export($element, $type, $clientId, $pluginGroup);
 				chmod($exportPath . '/' . $package . '.zip', $fileMode);
 				$packageData[$extensionId]->filename = $package . '.zip';
+
+				if ($delDirs)
+				{
+					$exporter->removeArtifacts();
+				}
 
 				$this->issueSuccessMessage($package, $type, $exportPath);
 			}
@@ -67,11 +72,6 @@ class InstallerControllerExtensions extends BaseController
 				$doCreatePackage = false;
 
 				$this->issueFailureMessage($element, $type, $exception);
-			}
-
-			if (!empty($package))
-			{
-				Folder::delete($exportPath . '/' . preg_replace('~-[\d\.]*$~', '', $package));
 			}
 		}
 

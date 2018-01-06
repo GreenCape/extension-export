@@ -29,12 +29,32 @@
                     default="images/dist"
                 />
                 <field
+                    name="del_dirs"
+                    type="radio"
+                    label="PLG_SYSTEM_EXTENSIONEXPORT_FIELD_DEL_DIRS"
+                    description="PLG_SYSTEM_EXTENSIONEXPORT_FIELD_DEL_DIRS_DESC"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
                     name="filemode"
                     type="text"
                     label="PLG_SYSTEM_EXTENSIONEXPORT_FIELD_FILEMODE"
                     description="PLG_SYSTEM_EXTENSIONEXPORT_FIELD_FILEMODE_DESC"
                     size="6"
                     default="0644"
+                />
+                <field
+                    name="dirmode"
+                    type="text"
+                    label="PLG_SYSTEM_EXTENSIONEXPORT_FIELD_DIRMODE"
+                    description="PLG_SYSTEM_EXTENSIONEXPORT_FIELD_DIRMODE_DESC"
+                    size="6"
+                    default="0755"
+                    showon="del_dirs:0"
                 />
             </fieldset>
         </fields>

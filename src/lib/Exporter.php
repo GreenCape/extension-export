@@ -21,7 +21,7 @@ jimport('joomla.filesystem.file');
 /**
  * @package     GreenCape\Extension
  *
- * @since 1.0.0
+ * @since       1.0.0
  */
 class Exporter
 {
@@ -111,20 +111,30 @@ class Exporter
 
 	/**
 	 * @var int
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $dirMode;
+
+	/**
+	 * @var int
 	 * @since 1.0.0
 	 */
-	private $dirMode = 0755;
+	private $fileMode;
 
 	/**
 	 * Exporter constructor.
 	 *
 	 * @param string $exportDirectory The working directory
+	 * @param int    $dirMode
+	 * @param int    $fileMode
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct($exportDirectory)
+	public function __construct($exportDirectory, $dirMode = 0755, $fileMode = 0644)
 	{
 		$this->exportDirectory = $exportDirectory;
+		$this->dirMode         = $dirMode;
+		$this->fileMode        = $fileMode;
 	}
 
 	/**
@@ -195,6 +205,8 @@ class Exporter
 		}
 
 		$this->zip();
+
+		$this->fixPermissions();
 
 		return $this->packageName;
 	}
@@ -489,6 +501,8 @@ class Exporter
 	}
 
 	/**
+	 * Copy a directory
+	 *
 	 * @param $sourcePath
 	 * @param $targetPath
 	 *
@@ -508,6 +522,8 @@ class Exporter
 	}
 
 	/**
+	 * Get the manifest
+	 *
 	 * @return \SimpleXMLElement
 	 *
 	 * @since 1.0.0
@@ -521,6 +537,8 @@ class Exporter
 	}
 
 	/**
+	 * Get the manifest path
+	 *
 	 * @return string
 	 *
 	 * @since 1.0.0
@@ -551,6 +569,8 @@ class Exporter
 	}
 
 	/**
+	 * Safely get an attribute (or its default) from a SimpleXMLElement
+	 *
 	 * @param \SimpleXMLElement $element
 	 * @param string            $tag
 	 * @param string            $attribute
@@ -568,5 +588,25 @@ class Exporter
 		}
 
 		return (string) $element->{$tag}->attributes()->{$attribute} ?: $default;
+	}
+
+	/**
+	 * Fix permissions
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function fixPermissions()
+	{
+		foreach (JFolder::files($this->exportDirectory . '/' . $this->fileBucket, '.', 10, true) as $file)
+		{
+			chmod($file, $this->fileMode);
+		}
+
+		foreach (JFolder::folders($this->exportDirectory . '/' . $this->fileBucket, '.', 10, true) as $folder)
+		{
+			chmod($folder, $this->dirMode);
+		}
+
+		chmod($this->exportDirectory . '/' . $this->packageName . '.zip', $this->fileMode);
 	}
 }
