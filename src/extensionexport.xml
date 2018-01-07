@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="system" method="upgrade">
+<extension version="3.1" type="plugin" group="system" client="administrator" method="upgrade">
     <name>PLG_SYSTEM_EXTENSIONEXPORT</name>
     <creationDate>Jan 2018</creationDate>
     <author>Niels Braczek</author>
@@ -60,7 +60,7 @@
         </fields>
     </config>
     <updateservers>
-        <server type="extension" enabled="1" element="plg_system_extensionexport" name="GreenCape Extension Export">
+        <server type="extension" enabled="1" element="extensionexport" name="GreenCape Extension Export">
             https://raw.githubusercontent.com/GreenCape/extension-export/master/updates.xml
         </server>
     </updateservers>
