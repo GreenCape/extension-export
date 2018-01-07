@@ -46,7 +46,7 @@ class InstallerControllerExtensions extends BaseController
 
 		foreach ($extensionIds as $extensionId)
 		{
-			$attributes                = $dataMapper->getAttributes($extensionId);
+			$attributes                = $dataMapper->getExtensionDetails($extensionId);
 			$element                   = $attributes->element;
 			$type                      = $attributes->type;
 			$clientId                  = (int) $attributes->client_id;
@@ -57,8 +57,8 @@ class InstallerControllerExtensions extends BaseController
 			{
 				$exporter = new Exporter($exportPath, $dirMode, $fileMode);
 				$package  = $exporter->export($element, $type, $clientId, $pluginGroup);
-				chmod($exportPath . '/' . $package . '.zip', $fileMode);
-				$packageData[$extensionId]->filename = $package . '.zip';
+				chmod("{$exportPath}/{$package}.zip", $fileMode);
+				$packageData[$extensionId]->filename = "$package.zip";
 
 				if ($delDirs)
 				{
@@ -91,7 +91,7 @@ class InstallerControllerExtensions extends BaseController
 				}
 
 				$package = $packager->export($packageData, $exportPath);
-				chmod($exportPath . '/' . $package . '.zip', $fileMode);
+				chmod("{$exportPath}/{$package}.zip", $fileMode);
 
 				$this->issueSuccessMessage($package, 'package', $exportPath);
 			}
@@ -109,7 +109,7 @@ class InstallerControllerExtensions extends BaseController
 	 * @param string $type
 	 * @param string $exportPath
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 * @throws Exception
 	 */
 	private function issueSuccessMessage($package, $type, $exportPath)
@@ -120,7 +120,7 @@ class InstallerControllerExtensions extends BaseController
 				'PLG_SYSTEM_EXTENSIONEXPORT_MESSAGE_EXPORT_SUCCESS',
 				$type,
 				$package,
-				str_replace(JPATH_ROOT, '', $exportPath) . '/' . $package . '.zip'
+				str_replace(JPATH_ROOT, '', $exportPath) . "/{$package}.zip"
 			)
 		);
 	}
@@ -130,7 +130,7 @@ class InstallerControllerExtensions extends BaseController
 	 * @param string    $type
 	 * @param Throwable $exception
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 * @throws Exception
 	 */
 	private function issueFailureMessage($element, $type, $exception)

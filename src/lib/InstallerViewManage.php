@@ -15,6 +15,7 @@ use Joomla\Registry\Registry;
 defined('_JEXEC') or die;
 
 /** @noinspection PhpUndefinedClassInspection */
+
 /**
  * Extension Manager Manage View
  *
@@ -23,28 +24,52 @@ defined('_JEXEC') or die;
 class InstallerViewManage extends InstallerViewDefault
 {
 	/**
+	 * The selected extensions
+	 *
 	 * @var array
 	 * @since 1.0.0
 	 */
 	protected $items;
 
 	/**
+	 * The pagination
+	 *
 	 * @var Pagination
 	 * @since 1.0.0
 	 */
 	protected $pagination;
 
 	/**
+	 * The form
+	 *
 	 * @var Form
 	 * @since 1.0.0
 	 */
 	protected $form;
 
 	/**
+	 * The current state
+	 *
 	 * @var Registry
 	 * @since 1.0.0
 	 */
 	protected $state;
+
+	/**
+	 * The filter form
+	 *
+	 * @var Form
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $filterForm;
+
+	/**
+	 * The active filters
+	 *
+	 * @var
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $activeFilters;
 
 	/**
 	 * Display the view.
@@ -52,7 +77,7 @@ class InstallerViewManage extends InstallerViewDefault
 	 * @param   string $tpl Template
 	 *
 	 * @return  void
-	 * @throws Exception
+	 * @throws RuntimeException
 	 *
 	 * @since   1.0.0
 	 */
@@ -66,7 +91,7 @@ class InstallerViewManage extends InstallerViewDefault
 
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new RuntimeException(implode("\n", $errors), 500);
 		}
 
 		HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_installer/helpers/html');
@@ -92,7 +117,7 @@ class InstallerViewManage extends InstallerViewDefault
 			JToolbarHelper::divider();
 		}
 
-		JToolbarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE', true);
+		JToolbarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE');
 		JToolbarHelper::divider();
 
 		if ($canDo->get('core.delete'))

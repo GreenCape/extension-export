@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 class DataMapper
 {
 	/**
-	 * Get attribute from database
+	 * Get extension details from database
 	 *
 	 * @param int $extensionId
 	 *
@@ -30,7 +30,7 @@ class DataMapper
 	 *
 	 * @since 1.0.0
 	 */
-	public function getAttributes($extensionId)
+	public function getExtensionDetails($extensionId)
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
@@ -41,7 +41,7 @@ class DataMapper
 		;
 		$db->setQuery($query);
 
-		$attributes = $db->loadAssoc();
+		$attributes    = $db->loadAssoc();
 		$manifestCache = json_decode($attributes['manifest_cache'], true);
 
 		return (object) array_merge($attributes, $manifestCache);

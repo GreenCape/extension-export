@@ -9,7 +9,7 @@
 
 namespace GreenCape\Extension;
 
-use /** @noinspection PhpDeprecationInspection No replacement available */
+use /** @noinspection PhpDeprecationInspection */
 	JArchiveZip;
 
 defined('_JEXEC') or die;
@@ -35,7 +35,7 @@ class Zipper
 	 *
 	 * @param string $name Name of the file
 	 * @param string $data Content of the file
-	 * @param int $time UNIX timestamp of creation time
+	 * @param int    $time UNIX timestamp of creation time
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */

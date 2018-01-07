@@ -86,15 +86,15 @@ class Packager
 		$this->data['copyright'] = $this->combineCopyrights($copyrights);
 		$this->data['version']   = $version;
 
-		$element = 'pkg_' . $this->data['packagename'];
+		$element = "pkg_{$this->data['packagename']}";
 
 		$zipper->addFile(
-			$element . '.xml',
+			"{$element}.xml",
 			$this->nodeToString($this->getManifest()),
 			time()
 		);
 
-		$zipper->create(JPath::clean("$exportPath/$element-$version.zip"));
+		$zipper->create(JPath::clean("{$exportPath}/{$element}-{$version}.zip"));
 
 		return "$element-$version";
 	}
@@ -116,6 +116,10 @@ class Packager
 	}
 
 	/**
+	 * Combine author names from the included extensions
+	 *
+	 * The unique authors are combined forming a comma separated list.
+	 *
 	 * @param array $authors
 	 *
 	 * @return string
@@ -128,6 +132,12 @@ class Packager
 	}
 
 	/**
+	 * Combine copyright notices from the included extensions
+	 *
+	 * The substrings 'Copyright (C)' and 'All rights reserved.' are removed from all entries, if present.
+	 * The remaining unique entries are combined forming a comma separated list.
+	 * The substrings are added again, if they were present in at least one extension.
+	 *
 	 * @param string[] $copyrights
 	 *
 	 * @return string
@@ -158,6 +168,8 @@ class Packager
 	}
 
 	/**
+	 * Create the manifest from the collected data
+	 *
 	 * @return \SimpleXMLElement
 	 *
 	 * @since  __DEPLOY_VERSION__
@@ -198,6 +210,8 @@ class Packager
 	}
 
 	/**
+	 * Add a file to the manifest
+	 *
 	 * @param string $filename
 	 * @param string $type
 	 * @param string $id
@@ -215,11 +229,13 @@ class Packager
 	}
 
 	/**
-	 * @param $node
+	 * Convert a SimpleXMLElement to a pretty printed XML string
+	 *
+	 * @param \SimpleXMLElement $node
 	 *
 	 * @return string
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
 	private function nodeToString($node)
 	{

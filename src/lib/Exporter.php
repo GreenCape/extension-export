@@ -9,7 +9,6 @@
 
 namespace GreenCape\Extension;
 
-use JArchiveZip;
 use JFile;
 use JFolder;
 use JPath;
@@ -25,12 +24,6 @@ jimport('joomla.filesystem.file');
  */
 class Exporter
 {
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	private $fileBucket;
-
 	/**
 	 * @var string
 	 * @since 1.0.0
@@ -68,56 +61,85 @@ class Exporter
 	private $adminLanguageTargetPath;
 
 	/**
+	 * The name of the package
+	 *
 	 * @var string
 	 * @since 1.0.0
 	 */
 	private $packageName;
 
 	/**
+	 * The version of the extension
+	 *
 	 * @var string
 	 * @since 1.0.0
 	 */
 	private $version;
 
 	/**
+	 * The name of the extension
+	 *
 	 * @var string
 	 * @since 1.0.0
 	 */
 	private $extension;
 
 	/**
+	 * The type of the extension
+	 *
 	 * @var string
 	 * @since 1.0.0
 	 */
 	private $type;
 
 	/**
+	 * The client ID
+	 *
+	 * 0 = administrator
+	 * 1 = site
+	 *
 	 * @var int
 	 * @since 1.0.0
 	 */
 	private $clientId;
 
 	/**
+	 * The group (type) of the plugin
+	 *
 	 * @var string
 	 * @since 1.0.0
 	 */
 	private $pluginGroup;
 
 	/**
-	 * @var string The working directory
+	 * The working directory
+	 *
+	 * @var string
 	 * @since 1.0.0
 	 */
 	private $exportDirectory;
 
 	/**
+	 * A subdirectory for collection of extension files
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	private $fileBucket;
+
+	/**
+	 * UNIX permissions for exported directories
+	 *
 	 * @var int
-	 * @since __DEPLOY_VERSION__
+	 * @since 1.0.0
 	 */
 	private $dirMode;
 
 	/**
+	 * UNIX permissions for exported files
+	 *
 	 * @var int
-	 * @since 1.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $fileMode;
 
@@ -125,8 +147,8 @@ class Exporter
 	 * Exporter constructor.
 	 *
 	 * @param string $exportDirectory The working directory
-	 * @param int    $dirMode
-	 * @param int    $fileMode
+	 * @param int    $dirMode         UNIX permissions for exported directories, defaults to 0755
+	 * @param int    $fileMode        UNIX permissions for exported files, defaults to 0644
 	 *
 	 * @since 1.0.0
 	 */
@@ -187,7 +209,7 @@ class Exporter
 
 		$this->packageName = "{$this->fileBucket}-{$this->version}";
 
-		if (JFolder::exists($this->exportDirectory . '/' . $this->fileBucket))
+		if (JFolder::exists("{$this->exportDirectory}/{$this->fileBucket}"))
 		{
 			$this->removeArtifacts();
 		}
@@ -218,8 +240,7 @@ class Exporter
 	 */
 	public function removeArtifacts()
 	{
-		JFolder::delete($this->exportDirectory . '/' . $this->fileBucket);
-		JFile::delete($this->exportDirectory . '/' . $this->packageName . '.zip');
+		JFolder::delete("{$this->exportDirectory}/{$this->fileBucket}");
 	}
 
 	/**
@@ -232,8 +253,8 @@ class Exporter
 	private function copyMedia()
 	{
 		$this->copyDirectory(
-			JPATH_SITE . '/media/' . $this->mediaSourcePath,
-			$this->exportDirectory . '/' . $this->fileBucket . '/' . $this->mediaTargetPath
+			JPATH_SITE . "/media/{$this->mediaSourcePath}",
+			"{$this->exportDirectory}/{$this->fileBucket}/{$this->mediaTargetPath}"
 		);
 	}
 
@@ -247,8 +268,8 @@ class Exporter
 	private function copyPlugin()
 	{
 		$this->copyDirectory(
-			JPATH_SITE . '/plugins/' . $this->pluginGroup . '/' . $this->extension,
-			$this->exportDirectory . '/' . $this->fileBucket
+			JPATH_SITE . "/plugins/{$this->pluginGroup}/{$this->extension}",
+			"{$this->exportDirectory}/{$this->fileBucket}"
 		);
 	}
 
@@ -262,8 +283,8 @@ class Exporter
 	private function copyModule()
 	{
 		$this->copyDirectory(
-			($this->clientId === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR) . '/modules/' . $this->extension,
-			$this->exportDirectory . '/' . $this->fileBucket
+			($this->clientId === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR) . "/modules/{$this->extension}",
+			"{$this->exportDirectory}/{$this->fileBucket}"
 		);
 	}
 
@@ -276,8 +297,8 @@ class Exporter
 	private function copyTemplate()
 	{
 		$this->copyDirectory(
-			($this->clientId === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR) . '/templates/' . $this->extension,
-			$this->exportDirectory . '/' . $this->fileBucket
+			($this->clientId === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR) . "/templates/{$this->extension}",
+			"{$this->exportDirectory}/{$this->fileBucket}"
 		);
 	}
 
@@ -293,12 +314,15 @@ class Exporter
 		$this->copyComponentSite();
 
 		$baseName   = substr($this->extension, 4);
-		$sourcePath = $this->exportDirectory . '/' . $this->fileBucket . '/' . $this->adminFilesTargetPath . '/' . $baseName . '.xml';
+		$sourcePath = "{$this->exportDirectory}/{$this->fileBucket}/{$this->adminFilesTargetPath}/{$baseName}.xml'";
+
 		if (!JFile::exists($sourcePath))
 		{
-			$sourcePath = $this->exportDirectory . '/' . $this->fileBucket . '/' . $this->filesTargetPath . '/' . $baseName . '.xml';
+			$sourcePath = "{$this->exportDirectory}/{$this->fileBucket}/{$this->filesTargetPath}/{$baseName}.xml";
 		}
-		$targetPath = $this->exportDirectory . '/' . $this->fileBucket . '/' . $baseName . '.xml';
+
+		$targetPath = "{$this->exportDirectory}/{$this->fileBucket}/{$baseName}.xml";
+
 		JFile::move($sourcePath, $targetPath);
 	}
 
@@ -342,22 +366,21 @@ class Exporter
 	private function zip()
 	{
 		$originalDirectory = getcwd();
-		$workingDirectory  = $this->exportDirectory . '/' . $this->fileBucket;
+		$workingDirectory  = "{$this->exportDirectory}/{$this->fileBucket}";
 		chdir($workingDirectory);
 
-		$data = [];
+		$zipper = new Zipper();
+
 		foreach (JFolder::files('.', '', true, true) as $file)
 		{
-			$data[] = [
-				'name' => str_replace('./', '', $file),
-				'data' => file_get_contents($file),
-				'time' => filemtime($file),
-			];
+			$zipper->addFile(
+				str_replace('./', '', $file),
+				file_get_contents($file),
+				filemtime($file)
+			);
 		}
 
-		/** @noinspection PhpDeprecationInspection Replacement does not yet exist */
-		$zip = new JArchiveZip;
-		$zip->create(JPath::clean("$this->exportDirectory/$this->packageName.zip"), $data);
+		$zipper->create(JPath::clean("{$this->exportDirectory}/{$this->packageName}.zip"));
 
 		chdir($originalDirectory);
 	}
@@ -376,14 +399,14 @@ class Exporter
 	{
 		foreach (['ini', 'sys.ini'] as $ext)
 		{
-			$languageFile = "$language.$this->fileBucket.$ext";
+			$languageFile = "{$language}.{$this->fileBucket}.{$ext}";
 
-			if (!JFile::exists("$sourcePath/$languageFile"))
+			if (!JFile::exists("{$sourcePath}/{$languageFile}"))
 			{
 				continue;
 			}
 
-			$targetName = "$language/$languageFile";
+			$targetName = "{$language}/{$languageFile}";
 			foreach ($manifest->language as $file)
 			{
 				if (basename($file) === $languageFile)
@@ -395,8 +418,8 @@ class Exporter
 
 			if (!empty($targetName))
 			{
-				JFolder::create(dirname("$targetPath/$targetName"), $this->dirMode);
-				JFile::copy("$sourcePath/$languageFile", "$targetPath/$targetName");
+				JFolder::create(dirname("{$targetPath}/{$targetName}"), $this->dirMode);
+				JFile::copy("{$sourcePath}/{$languageFile}", "{$targetPath}/{$targetName}");
 			}
 		}
 	}
@@ -435,17 +458,17 @@ class Exporter
 		$locations = [
 			'site'    => [
 				'source'   => JPATH_SITE . '/language',
-				'target'   => $this->fileBucket . '/' . $this->languageTargetPath,
+				'target'   => "{$this->fileBucket}/{$this->languageTargetPath}",
 				'manifest' => $manifest->languages ?: null,
 			],
 			'admin'   => [
 				'source'   => JPATH_ADMINISTRATOR . '/language',
-				'target'   => $this->fileBucket . '/' . $this->adminLanguageTargetPath,
+				'target'   => "{$this->fileBucket}/{$this->adminLanguageTargetPath}",
 				'manifest' => null,
 			],
 			'plugins' => [
 				'source'   => JPATH_ADMINISTRATOR . '/language',
-				'target'   => $this->fileBucket . '/' . $this->languageTargetPath,
+				'target'   => "{$this->fileBucket}/{$this->languageTargetPath}",
 				'manifest' => null,
 			],
 		];
@@ -467,7 +490,7 @@ class Exporter
 				continue;
 			}
 			$this->copyLanguageDirectory(
-				$location['source'], $this->exportDirectory . '/' . $location['target'], $location['manifest']
+				$location['source'], "{$this->exportDirectory}/{$location['target']}", $location['manifest']
 			);
 		}
 	}
@@ -480,10 +503,10 @@ class Exporter
 	 */
 	private function copyComponentSite()
 	{
-		$sourcePath = JPATH_SITE . '/components/' . $this->extension;
-		$targetPath = $this->exportDirectory . '/' . $this->fileBucket . '/' . $this->filesTargetPath;
-
-		$this->copyDirectory($sourcePath, $targetPath);
+		$this->copyDirectory(
+			JPATH_SITE . "/components/{$this->extension}",
+			"{$this->exportDirectory}/{$this->fileBucket}/{$this->filesTargetPath}"
+		);
 	}
 
 	/**
@@ -494,10 +517,10 @@ class Exporter
 	 */
 	private function copyComponentAdministrator()
 	{
-		$sourcePath = JPATH_ADMINISTRATOR . '/components/' . $this->extension;
-		$targetPath = $this->exportDirectory . '/' . $this->fileBucket . '/' . $this->adminFilesTargetPath;
-
-		$this->copyDirectory($sourcePath, $targetPath);
+		$this->copyDirectory(
+			JPATH_ADMINISTRATOR . "/components/{$this->extension}",
+			"{$this->exportDirectory}/{$this->fileBucket}/{$this->adminFilesTargetPath}"
+		);
 	}
 
 	/**
@@ -531,9 +554,7 @@ class Exporter
 	 */
 	private function getManifest()
 	{
-		$path = $this->getManifestPath();
-
-		return simplexml_load_string(file_get_contents($path));
+		return simplexml_load_string(file_get_contents($this->getManifestPath()));
 	}
 
 	/**
@@ -549,10 +570,10 @@ class Exporter
 		$clientPath   = $this->clientId === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 		$manifestName = substr($this->extension, 4) . '.xml';
 		$manifestPath = [
-			'component' => $clientPath . '/components/' . $this->extension . '/' . $manifestName,
-			'module'    => $clientPath . '/modules/' . $this->extension . '/mod_' . $manifestName,
-			'plugin'    => JPATH_SITE . '/plugins/' . $this->pluginGroup . '/' . $this->extension . '/' . $this->extension . '.xml',
-			'template'  => $clientPath . '/templates/' . $this->extension . '/templateDetails.xml',
+			'component' => "{$clientPath}/components/{$this->extension}/{$manifestName}",
+			'module'    => "{$clientPath}/modules/{$this->extension}/mod_{$manifestName}",
+			'plugin'    => JPATH_SITE . "/plugins/{$this->pluginGroup}/{$this->extension}/{$this->extension}.xml",
+			'template'  => "{$clientPath}/templates/{$this->extension}/templateDetails.xml",
 		];
 
 		if (!isset($manifestPath[$this->type]))
@@ -597,16 +618,16 @@ class Exporter
 	 */
 	private function fixPermissions()
 	{
-		foreach (JFolder::files($this->exportDirectory . '/' . $this->fileBucket, '.', 10, true) as $file)
+		foreach (JFolder::files("{$this->exportDirectory}/{$this->fileBucket}", '.', 10, true) as $file)
 		{
 			chmod($file, $this->fileMode);
 		}
 
-		foreach (JFolder::folders($this->exportDirectory . '/' . $this->fileBucket, '.', 10, true) as $folder)
+		foreach (JFolder::folders("{$this->exportDirectory}/{$this->fileBucket}", '.', 10, true) as $folder)
 		{
 			chmod($folder, $this->dirMode);
 		}
 
-		chmod($this->exportDirectory . '/' . $this->packageName . '.zip', $this->fileMode);
+		chmod("{$this->exportDirectory}/{$this->packageName}.zip", $this->fileMode);
 	}
 }
