@@ -30,7 +30,7 @@ The File Mode is the UNIX permissions for files, defaulting to `0644`.
 ### Dir Mode
 
 The Dir Mode is the UNIX permissions for directories, defaulting to `0755`.
-This field is only available, if `Delete Directories` is set to `yes`.
+This field is only available, if `Delete Directories` is set to `no`.
 
 ## Usage
 
