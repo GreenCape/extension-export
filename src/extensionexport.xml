@@ -59,4 +59,9 @@
             </fieldset>
         </fields>
     </config>
+    <updateservers>
+        <server type="extension" enabled="1" element="plg_system_extensionexport" name="GreenCape Extension Export">
+            https://raw.githubusercontent.com/GreenCape/extension-export/master/update-server.xml
+        </server>
+    </updateservers>
 </extension>

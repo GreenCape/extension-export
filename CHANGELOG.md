@@ -9,12 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- Added ability to download all selected extensions as a single package.
-- Added ability to keep unzipped directories.
+- Ability to download all selected extensions as a single package.
+- Ability to keep unzipped directories.
+- Support for Joomla Update System
 
 ### Changed
 
-- Changed default permissions to `0644` (files) / `0755` (directories). Thanks @brianteeman
+- Default permissions to `0644` (files) / `0755` (directories). Thanks @brianteeman
 
 ### Deprecated
 

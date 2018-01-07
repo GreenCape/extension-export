@@ -1,0 +1,21 @@
+<updates>
+    <update>
+        <name>GreenCape Extension Export</name>
+        <description>Extends Joomla's Extension Manager with extension export functionality.</description>
+        <element>plg_system_extensionexport</element>
+        <type>plugin</type>
+        <version>1.0.0</version>
+        <infourl title="GreenCape Extension Export">https://github.com/GreenCape/extension-export/blob/1.0.0/README.md</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">
+                https://github.com/GreenCape/extension-export/archive/1.0.0.zip
+            </downloadurl>
+        </downloads>
+        <tags>
+            <tag>stable</tag>
+        </tags>
+        <maintainer>Niels Braczek</maintainer>
+        <maintainerurl>https://github.com/GreenCape/extension-export</maintainerurl>
+        <targetplatform name="joomla" version="3.*"/>
+    </update>
+</updates>
