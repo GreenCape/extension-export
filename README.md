@@ -1,6 +1,6 @@
 # GreenCape Extension Export
 
-This is a **system plugin** for Joomla that extends Joomla's Extension Manager with extension export functionality.
+This is a **system plugin** for Joomla **3.8+** that extends Joomla's Extension Manager with extension export functionality.
 
 ## Installation
 
