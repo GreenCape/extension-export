@@ -7,14 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+To update from 1.0.0, please uninstall the old version and install the new one.
+
 ### Added
 
-- Added ability to download all selected extensions as a single package.
-- Added ability to keep unzipped directories.
+- Ability to download all selected extensions as a single package.
+- Ability to keep unzipped directories.
+- Support for Joomla Update System
+- Added German language files
 
 ### Changed
 
-- Changed default permissions to `0644` (files) / `0755` (directories). Thanks @brianteeman
+- Default permissions to `0644` (files) / `0755` (directories). Thanks @brianteeman
 
 ### Deprecated
 

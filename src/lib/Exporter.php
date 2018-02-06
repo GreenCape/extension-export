@@ -11,6 +11,7 @@ namespace GreenCape\Extension;
 
 use JFile;
 use JFolder;
+use Joomla\CMS\Factory;
 use JPath;
 
 jimport('joomla.application.module.controlleradmin');
@@ -307,6 +308,7 @@ class Exporter
 	 *
 	 * @since 1.0.0
 	 * @throws \RuntimeException
+	 * @throws \Exception
 	 */
 	private function copyComponent()
 	{
@@ -318,6 +320,7 @@ class Exporter
 
 		if (!JFile::exists($sourcePath))
 		{
+			Factory::getApplication()->enqueueMessage("$sourcePath not found");
 			$sourcePath = "{$this->exportDirectory}/{$this->fileBucket}/{$this->filesTargetPath}/{$baseName}.xml";
 		}
 
@@ -331,6 +334,7 @@ class Exporter
 	 *
 	 * @since 1.0.0
 	 * @throws \RuntimeException
+	 * @throws \Exception
 	 */
 	private function copyExtension()
 	{
