@@ -117,8 +117,7 @@ class InstallerControllerExtensions extends BaseController
 		$app = Factory::getApplication();
 		$app->enqueueMessage(
 			Text::sprintf(
-				'PLG_SYSTEM_EXTENSIONEXPORT_MESSAGE_EXPORT_SUCCESS',
-				$type,
+				'PLG_SYSTEM_EXTENSIONEXPORT_MESSAGE_EXPORT_SUCCESS_' . strtoupper($type),
 				$package,
 				str_replace(JPATH_ROOT, '', $exportPath) . "/{$package}.zip"
 			)
@@ -138,8 +137,7 @@ class InstallerControllerExtensions extends BaseController
 		$app = Factory::getApplication();
 		$app->enqueueMessage(
 			Text::sprintf(
-				'PLG_SYSTEM_EXTENSIONEXPORT_MESSAGE_EXPORT_FAILURE',
-				$type,
+				'PLG_SYSTEM_EXTENSIONEXPORT_MESSAGE_EXPORT_FAILURE_' . strtoupper($type),
 				$element,
 				$exception->getMessage()
 			),

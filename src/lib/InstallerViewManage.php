@@ -61,7 +61,7 @@ class InstallerViewManage extends InstallerViewDefault
 	 * @var Form
 	 * @since __DEPLOY_VERSION__
 	 */
-	private $filterForm;
+	public $filterForm;
 
 	/**
 	 * The active filters

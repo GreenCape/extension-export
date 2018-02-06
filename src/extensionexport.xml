@@ -14,6 +14,8 @@
         <folder>lib</folder>
     </files>
     <languages folder="language">
+        <language tag="de-DE">de-DE.plg_system_extensionexport.ini</language>
+        <language tag="de-DE">de-DE.plg_system_extensionexport.sys.ini</language>
         <language tag="en-GB">en-GB.plg_system_extensionexport.ini</language>
         <language tag="en-GB">en-GB.plg_system_extensionexport.sys.ini</language>
     </languages>
